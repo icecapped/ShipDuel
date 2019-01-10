@@ -6,7 +6,7 @@ import javax.swing.*;
 
 public class PlayerShip {
 
-	//Drawing and movement variables
+	//Drawing and physics variables
 	private static final int MAX_SPD = 10;
 	private static final int MIN_SPD = -10;
 	private int x;
@@ -21,9 +21,10 @@ public class PlayerShip {
 	
 	//Animation Variables
 	private static final int FULL_LOOP = 3;
+	private static final int FRAME_DELAY = 6;
 	private Image image;
-	private int aLoop;
-	private int loopState;
+	private int aLoop; //# of animation steps
+	private int loopState; //# of frames between steps
 	
 	//Keypress variables
 	private boolean up;
@@ -42,6 +43,7 @@ public class PlayerShip {
 		xs = 0;
 		ys = 0;
 		this.color = color;
+		aLoop = 0;
 		loopState = 0;
 		up = false;
 		down = false;
@@ -59,7 +61,7 @@ public class PlayerShip {
 			image = new ImageIcon("src/assets/blue" + aLoop + ".png").getImage();
 		}
 		loopState++;
-		if(loopState >= 10){
+		if(loopState >= FRAME_DELAY){
 			aLoop++;
 			if(aLoop >= FULL_LOOP){
 				aLoop = 0;
