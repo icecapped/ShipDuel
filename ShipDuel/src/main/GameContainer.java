@@ -37,7 +37,7 @@ class GameContainer extends JPanel implements ActionListener{
 		pAreaX = 50;
 		pAreaY = 0;
 		pAreaW = 720;
-		pAreaH = 1020;
+		pAreaH = 990;
 	}
 	
 	public void paintComponent(Graphics g){
