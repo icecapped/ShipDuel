@@ -5,7 +5,7 @@ import java.awt.event.*;
 import javax.swing.*;
 
 public class PlayerShip {
-
+	
 	//Drawing and physics variables
 	private static final int MAX_SPD = 10;
 	private static final int MIN_SPD = -10;
@@ -31,6 +31,13 @@ public class PlayerShip {
 	private boolean down;
 	private boolean left;
 	private boolean right;
+	private boolean shoot;
+	
+	//Shooting
+	private static final int CHARGE_TIME = 60
+	ArrayList<Bullet> bullets; 
+	private int shotCharge; // 0 to 2
+	private int shotLoop;
 	
 	/**
 	 * false is red, true is blue
@@ -49,6 +56,7 @@ public class PlayerShip {
 		down = false;
 		left = false;
 		right = false;
+		bullets = new ArrayList<>();
 		
 		updateImage();
 	}
@@ -119,6 +127,31 @@ public class PlayerShip {
 			ys = -ys * 3 / 2;
 		}
 	}
+	
+	//Called while charging
+	//TODO: SHOW SHOT IS CHARGING (whileshotLoop != 0 && shotCharge != 0)
+	public void updateCharge(){
+		shotLoop++;
+		if(shotLoop >= CHARGE_TIME){
+			shotCharge++;
+			shotLoop = 0;
+		}
+		if(shotCharge >= 2){
+			shotLoop = 0;
+		}
+	}
+	//Called after shot is fired
+	public void resetCharge(){
+		shotLoop = 0;
+		shotCharge = 0;
+	}
+	
+	//Called to fire shot
+	public void shootCharge(){
+		bullets.add(new Bullet(x + w / 2, y + h / 2, xs, ys, color, shotCharge));
+		resetCharge();
+	}
+	
 	public int getX(){
 		return x;
 	}
@@ -146,6 +179,9 @@ public class PlayerShip {
 				break;
 			case KeyEvent.VK_UP:
 				up = true;
+				break;
+			case KeyEvent.VK_SPACE:
+				shoot = true;	
 			}
 		}
 		else{
@@ -161,6 +197,9 @@ public class PlayerShip {
 				break;
 			case KeyEvent.VK_W:
 				up = true;
+			}
+			case KeyEvent.VK_Q:
+				shoot = true;	
 			}
 		}
 
@@ -182,6 +221,9 @@ public class PlayerShip {
 			case KeyEvent.VK_UP:
 				up = false;
 			}
+			case KeyEvent.VK_SPACE:
+				shoot = false;	
+			}
 		}
 		else{
 			switch(key){
@@ -196,6 +238,9 @@ public class PlayerShip {
 				break;
 			case KeyEvent.VK_W:
 				up = false;
+			}
+			case KeyEvent.VK_Q:
+				shoot = false;	
 			}
 		}
 	}
