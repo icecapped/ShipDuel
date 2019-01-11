@@ -27,8 +27,6 @@ class GameContainer extends JPanel implements ActionListener{
 	int tickrate = 16;
 	PlayerShip red;
 	PlayerShip blue;
-	ArrayList<Bullet> redBullets;
-	ArrayList<Bullet> blueBullets;
 	
 	public GameContainer() {
 		//addKeyListener(new MAdapter());
@@ -37,16 +35,11 @@ class GameContainer extends JPanel implements ActionListener{
 		tick = new Timer(tickrate, this);
 		tick.start();
 		
-		redBullets = new ArrayList<>();
-		blueBullets = new ArrayList<>();
-		
 		pAreaX = 50;
 		pAreaY = 0;
 		pAreaW = 720;
 		pAreaH = 965;
 		
-		//testiong
-		redBullets.add(new Bullet(200, 20, 0, 0, false, 0));
 	}
 	
 	public void paintComponent(Graphics g){
@@ -61,12 +54,17 @@ class GameContainer extends JPanel implements ActionListener{
 		g.setColor(Color.GRAY);
 		g.fillRect(50, pAreaH / 2 - 1, 720, 3);
 		
+		for(int i = 0; i < red.getBullets().size(); i++){
+			g.drawImage(red.getBullets().get(i).getImage(), red.getBullets().get(i).getX(), red.getBullets().get(i).getY(), this);
+		}
+		for(int i = 0; i < blue.getBullets().size(); i++){
+			g.drawImage(blue.getBullets().get(i).getImage(), blue.getBullets().get(i).getX(), blue.getBullets().get(i).getY(), this);
+
+		}
+		
 		g.drawImage(red.getImage(), red.getX(), red.getY(), this);
 		g.drawImage(blue.getImage(), blue.getX(), blue.getY(), this);
 		
-		for(int i = 0; i < redBullets.size(); i++){
-			g.drawImage(redBullets.get(i).getImage(), redBullets.get(i).getX(), redBullets.get(i).getY(), this);
-		}
 		//paint(g);
 		
 		Toolkit.getDefaultToolkit().sync();
@@ -76,15 +74,43 @@ class GameContainer extends JPanel implements ActionListener{
 	}*/
 
 	void update(){
-		
-		for(int i = 0; i < redBullets.size(); i++){
-			redBullets.get(i).update();
-			redBullets.get(i).collisionCheck(red.getX(), red.getY(), red.getX() + red.w, red.getY() + red.h);
-		}
 		red.update();
 		blue.update();
 		red.wallCheck(pAreaX, pAreaH / 2, pAreaW + pAreaX, pAreaH + pAreaY);
 		blue.wallCheck(pAreaX, pAreaY, pAreaW + pAreaX, pAreaH / 2 + pAreaY);
+		
+		//bullet out of bounds destructor
+		for(int i = 0; i < red.getBullets().size(); i++){
+			if(red.getBullets().get(i).wallCheck(pAreaX, pAreaY, pAreaW + pAreaX, pAreaH + pAreaY)){
+				red.getBullets().remove(i);
+				i--;
+			}
+		}
+		for(int i = 0; i < blue.getBullets().size(); i++){
+			if(blue.getBullets().get(i).wallCheck(pAreaX, pAreaY, pAreaW + pAreaX, pAreaH + pAreaY)){
+				blue.getBullets().remove(i);
+				i--;
+			}
+		}
+		
+		//hit check
+		for(int i = 0; i < red.getBullets().size(); i++){
+			if(red.getBullets().get(i).collisionCheck(blue.getX(), blue.getY(), blue.getX() + blue.w, blue.getY() + blue.h)){
+				System.out.println("Blue Hit!");
+				red.getBullets().remove(i);
+				i--;
+				//hit blue
+			}
+		}
+		for(int i = 0; i < blue.getBullets().size(); i++){
+			if(blue.getBullets().get(i).collisionCheck(red.getX(), red.getY(), red.getX() + red.w, red.getY() + red.h)){
+				System.out.println("Red Hit!");
+				blue.getBullets().remove(i);
+				i--;
+				//hit red
+			}
+		}
+		
 		repaint(0, 0, 0, getWidth(), getHeight());
 	}
 	

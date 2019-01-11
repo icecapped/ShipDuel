@@ -2,6 +2,8 @@ package objects;
 
 import java.awt.*;
 import java.awt.event.*;
+import java.util.ArrayList;
+
 import javax.swing.*;
 
 public class PlayerShip {
@@ -34,8 +36,8 @@ public class PlayerShip {
 	private boolean shoot;
 	
 	//Shooting
-	private static final int CHARGE_TIME = 60
-	ArrayList<Bullet> bullets; 
+	private static final int CHARGE_TIME = 20;
+	private ArrayList<Bullet> bullets; 
 	private int shotCharge; // 0 to 2
 	private int shotLoop;
 	
@@ -106,6 +108,13 @@ public class PlayerShip {
 		
 		x += xs;
 		y += ys;
+		
+		for(int i = 0; i < bullets.size(); i++){
+			bullets.get(i).update();
+			
+		}
+		
+		if(shoot) updateCharge();
 		updateImage();
 	}
 	
@@ -148,7 +157,7 @@ public class PlayerShip {
 	
 	//Called to fire shot
 	public void shootCharge(){
-		bullets.add(new Bullet(x + w / 2, y + h / 2, xs, ys, color, shotCharge));
+		bullets.add(new Bullet(x + w / 2 - 7, y + h / 2, xs / 2, ys / 2, color, shotCharge));
 		resetCharge();
 	}
 	
@@ -162,6 +171,10 @@ public class PlayerShip {
 	
 	public Image getImage(){
 		return image;
+	}
+	
+	public ArrayList<Bullet> getBullets(){
+		return bullets;
 	}
 	
 	public void keyPressed(KeyEvent e){
@@ -181,7 +194,7 @@ public class PlayerShip {
 				up = true;
 				break;
 			case KeyEvent.VK_SPACE:
-				shoot = true;	
+				shoot = true;
 			}
 		}
 		else{
@@ -197,9 +210,9 @@ public class PlayerShip {
 				break;
 			case KeyEvent.VK_W:
 				up = true;
-			}
+				break;
 			case KeyEvent.VK_Q:
-				shoot = true;	
+				shoot = true;
 			}
 		}
 
@@ -220,9 +233,10 @@ public class PlayerShip {
 				break;
 			case KeyEvent.VK_UP:
 				up = false;
-			}
+				break;
 			case KeyEvent.VK_SPACE:
 				shoot = false;	
+				shootCharge();
 			}
 		}
 		else{
@@ -238,9 +252,10 @@ public class PlayerShip {
 				break;
 			case KeyEvent.VK_W:
 				up = false;
-			}
+				break;
 			case KeyEvent.VK_Q:
 				shoot = false;	
+				shootCharge();
 			}
 		}
 	}

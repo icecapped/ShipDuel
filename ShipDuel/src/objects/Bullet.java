@@ -7,9 +7,9 @@ import javax.swing.ImageIcon;
 public class Bullet {
 
 	//Drawing and physics variables
-	private static final int S_SHOT_SPD = 20;
-	private static final int M_SHOT_SPD = 30;
-	private static final int L_SHOT_SPD = 40;
+	private static final int S_SHOT_SPD = 15;
+	private static final int M_SHOT_SPD = 20;
+	private static final int L_SHOT_SPD = 30;
 	private int ySpeed;
 	private int xSpeed;
 	private int x; //hit boxes
@@ -30,22 +30,36 @@ public class Bullet {
 		this.y = y;
 		xSpeed = initXVel;
 		ySpeed = initYVel;
-		switch(size){
-		case 0:
-			ySpeed += S_SHOT_SPD;
-			break;
-		case 1:
-			ySpeed += M_SHOT_SPD;
-			break;
-		case 2:
-			ySpeed += L_SHOT_SPD;
-		}
-		
 		this.direction = direction;
 		loopState = 0;
 		aLoop = 0;
 		
-	}
+		if(direction){
+			switch(size){
+			case 0:
+				ySpeed += S_SHOT_SPD;
+				break;
+			case 1:
+				ySpeed += M_SHOT_SPD;
+				break;
+			case 2:
+				ySpeed += L_SHOT_SPD;
+			}
+		}
+		else{
+			switch(size){
+			case 0:
+				ySpeed -= S_SHOT_SPD;
+				break;
+			case 1:
+				ySpeed -= M_SHOT_SPD;
+				break;
+			case 2:
+				ySpeed -= L_SHOT_SPD;
+			}
+		}
+		
+	}		
 	
 	public int getX(){
 		return x;
