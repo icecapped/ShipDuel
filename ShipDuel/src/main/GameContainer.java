@@ -80,35 +80,17 @@ class GameContainer extends JPanel implements ActionListener{
 		blue.wallCheck(pAreaX, pAreaY, pAreaW + pAreaX, pAreaH / 2 + pAreaY);
 		
 		//bullet out of bounds destructor
-		for(int i = 0; i < red.getBullets().size(); i++){
-			if(red.getBullets().get(i).wallCheck(pAreaX, pAreaY, pAreaW + pAreaX, pAreaH + pAreaY)){
-				red.getBullets().remove(i);
-				i--;
-			}
-		}
-		for(int i = 0; i < blue.getBullets().size(); i++){
-			if(blue.getBullets().get(i).wallCheck(pAreaX, pAreaY, pAreaW + pAreaX, pAreaH + pAreaY)){
-				blue.getBullets().remove(i);
-				i--;
-			}
-		}
+		red.bulletBounce(pAreaX, pAreaY, pAreaW + pAreaX, pAreaH + pAreaY);
+		blue.bulletBounce(pAreaX, pAreaY, pAreaW + pAreaX, pAreaH + pAreaY);
 		
 		//hit check
-		for(int i = 0; i < red.getBullets().size(); i++){
-			if(red.getBullets().get(i).collisionCheck(blue.getX(), blue.getY(), blue.getX() + blue.w, blue.getY() + blue.h)){
-				System.out.println("Blue Hit!");
-				red.getBullets().remove(i);
-				i--;
-				//hit blue
-			}
+		if(red.checkShot(blue)){
+			System.out.println("Red wins!");
+			blue = new PlayerShip(380, 275, true);
 		}
-		for(int i = 0; i < blue.getBullets().size(); i++){
-			if(blue.getBullets().get(i).collisionCheck(red.getX(), red.getY(), red.getX() + red.w, red.getY() + red.h)){
-				System.out.println("Red Hit!");
-				blue.getBullets().remove(i);
-				i--;
-				//hit red
-			}
+		if(blue.checkShot(red)){
+			System.out.println("Blue wins!");
+			red = new PlayerShip(380, 755, false);
 		}
 		
 		repaint(0, 0, 0, getWidth(), getHeight());

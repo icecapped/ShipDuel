@@ -35,11 +35,12 @@ public class PlayerShip {
 	private boolean right;
 	private boolean shoot;
 	
-	//Shooting
+	//Combat
 	private static final int CHARGE_TIME = 20;
 	private ArrayList<Bullet> bullets; 
 	private int shotCharge; // 0 to 2
 	private int shotLoop;
+	private int health;
 	
 	/**
 	 * false is red, true is blue
@@ -59,6 +60,7 @@ public class PlayerShip {
 		left = false;
 		right = false;
 		bullets = new ArrayList<>();
+		health = 3;
 		
 		updateImage();
 	}
@@ -137,6 +139,15 @@ public class PlayerShip {
 		}
 	}
 	
+	public void bulletBounce(int minX, int minY, int maxX, int maxY){
+		for(int i = 0; i < bullets.size(); i++){
+			if(bullets.get(i).wallCheck(minX, minY, maxX, maxY)){
+				bullets.remove(i);
+				i--;
+			}
+		}
+	}
+	
 	//Called while charging
 	//TODO: SHOW SHOT IS CHARGING (whileshotLoop != 0 && shotCharge != 0)
 	public void updateCharge(){
@@ -161,12 +172,40 @@ public class PlayerShip {
 		resetCharge();
 	}
 	
+	/**
+	 * Returns true if target is dead
+	 */
+	public boolean checkShot(PlayerShip target){
+		int dmg = 0;
+		for(int i = 0; i < bullets.size(); i++){
+			if(bullets.get(i).collisionCheck(target.getX(), target.getY(), target.getX() + target.w, target.getY() + target.h)){
+				dmg += bullets.get(i).getCharge() + 1;
+				bullets.remove(i);
+				i--;
+				System.out.println("Ship hit for " + dmg);
+				//hit enemy
+			}
+		}
+		return target.getShot(dmg);
+	}
+	
+	//Returns true if dead
+	public boolean getShot(int charge){
+		health -= charge;
+		if(health <= 0) return true;
+		return false;
+	}
+	
 	public int getX(){
 		return x;
 	}
 	
 	public int getY(){
 		return y;
+	}
+	
+	public int getHP(){
+		return health;
 	}
 	
 	public Image getImage(){

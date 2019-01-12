@@ -17,6 +17,7 @@ public class Bullet {
 	private int w;
 	private int h;
 	private boolean direction; // false belongs to red
+	private int charge;
 	
 	//Animation Variables
 	private static final int FULL_LOOP = 1;
@@ -33,7 +34,7 @@ public class Bullet {
 		this.direction = direction;
 		loopState = 0;
 		aLoop = 0;
-		
+		charge = size;
 		
 		if(direction){
 			switch(size){
@@ -65,7 +66,9 @@ public class Bullet {
 	public int getX(){
 		return x;
 	}
-	
+	public int getCharge(){
+		return charge;
+	}
 	public int getY(){
 		return y;
 	}
