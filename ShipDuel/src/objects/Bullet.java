@@ -14,8 +14,8 @@ public class Bullet {
 	private int xSpeed;
 	private int x; //hit boxes
 	private int y;
-	public int drawX; //drawing
-	public int drawY;
+	private int w;
+	private int h;
 	private boolean direction; // false belongs to red
 	
 	//Animation Variables
@@ -33,6 +33,7 @@ public class Bullet {
 		this.direction = direction;
 		loopState = 0;
 		aLoop = 0;
+		
 		
 		if(direction){
 			switch(size){
@@ -87,6 +88,8 @@ public class Bullet {
 			}
 			loopState = 0;
 		}
+		h = image.getHeight(null);
+		w = image.getWidth(null);
 	}
 	
 	public void update(){
@@ -105,11 +108,11 @@ public class Bullet {
 			xSpeed = -xSpeed;
 		}
 		if(y <= minY) return true;
-		if(x >= maxX){
-			x = maxX;
+		if(x + w >= maxX){
+			x = maxX - w;
 			xSpeed = -xSpeed;
 		}
-		if(y>= maxY) return true;
+		if(y >= maxY) return true;
 		
 		return false;
 	}

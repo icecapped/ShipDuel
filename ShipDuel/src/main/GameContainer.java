@@ -17,6 +17,8 @@ import objects.*;
 class GameContainer extends JPanel implements ActionListener{
 	
 	static final Image BG_IMAGE = new ImageIcon("src/assets/CosmicSky.png").getImage();
+	static final Image WALL_IMAGE_L = new ImageIcon("src/assets/Wall0.png").getImage();
+	static final Image WALL_IMAGE_R = new ImageIcon("src/assets/Wall1.png").getImage();
 	
 	int pAreaX;
 	int pAreaY;
@@ -38,17 +40,15 @@ class GameContainer extends JPanel implements ActionListener{
 		pAreaX = 50;
 		pAreaY = 0;
 		pAreaW = 720;
-		pAreaH = 965;
+		pAreaH = 945;
 		
 	}
 	
 	public void paintComponent(Graphics g){
 		super.paintComponent(g);
 		g.drawImage(BG_IMAGE, 50, 0, this);
-		
-		//draw side boundaries
-		g.fillRect(0, 0, 50, 990);
-		g.fillRect(pAreaW + 50,  0,  50, 990);
+		g.drawImage(WALL_IMAGE_L, 0, 0, this);
+		g.drawImage(WALL_IMAGE_R, pAreaX + pAreaW - 10, 0, this);
 		
 		//drawing middle boundary
 		g.setColor(Color.GRAY);
