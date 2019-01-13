@@ -64,6 +64,8 @@ class GameContainer extends JPanel implements ActionListener{
 		
 		g.drawImage(red.getImage(), red.getX(), red.getY(), this);
 		g.drawImage(blue.getImage(), blue.getX(), blue.getY(), this);
+		g.drawImage(red.getHealthBar(), red.getX() + red.w + 5, red.getY() + 10, this);
+		g.drawImage(blue.getHealthBar(), blue.getX() - 10, blue.getY() + 25, this);
 		
 		//paint(g);
 		
@@ -87,9 +89,11 @@ class GameContainer extends JPanel implements ActionListener{
 		if(red.checkShot(blue)){
 			System.out.println("Red wins!");
 			blue = new PlayerShip(380, 275, true);
+			red = new PlayerShip(380, 755, false);
 		}
 		if(blue.checkShot(red)){
 			System.out.println("Blue wins!");
+			blue = new PlayerShip(380, 275, true);
 			red = new PlayerShip(380, 755, false);
 		}
 		

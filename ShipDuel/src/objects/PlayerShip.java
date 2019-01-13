@@ -25,6 +25,7 @@ public class PlayerShip {
 	private static final int FULL_LOOP = 3;
 	private static final int FRAME_DELAY = 6;
 	private Image image;
+	private Image hpImage;
 	private int aLoop; //# of animation steps
 	private int loopState; //# of frames between steps
 	
@@ -66,6 +67,8 @@ public class PlayerShip {
 	}
 	
 	public void updateImage(){
+		hpImage = new ImageIcon("src/assets/hp" + health + ".png").getImage();
+		
 		if(!color){
 			image = new ImageIcon("src/assets/red" + aLoop + ".png").getImage();
 		}
@@ -210,6 +213,9 @@ public class PlayerShip {
 	
 	public Image getImage(){
 		return image;
+	}
+	public Image getHealthBar(){
+		return hpImage;
 	}
 	
 	public ArrayList<Bullet> getBullets(){
