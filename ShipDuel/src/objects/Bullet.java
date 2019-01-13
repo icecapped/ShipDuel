@@ -8,8 +8,8 @@ public class Bullet {
 
 	//Drawing and physics variables
 	private static final int S_SHOT_SPD = 15;
-	private static final int M_SHOT_SPD = 20;
-	private static final int L_SHOT_SPD = 30;
+	private static final int M_SHOT_SPD = 25;
+	private static final int L_SHOT_SPD = 35;
 	private int ySpeed;
 	private int xSpeed;
 	private int x; //hit boxes
@@ -78,10 +78,10 @@ public class Bullet {
 	
 	public void updateImage(){
 		if(!direction){
-			image = new ImageIcon("src/assets/bullet" + aLoop + ".png").getImage();
+			image = new ImageIcon("src/assets/bulletr" + aLoop + ".png").getImage();
 		}
 		else{
-			image = new ImageIcon("src/assets/bullet" + aLoop + ".png").getImage();
+			image = new ImageIcon("src/assets/bulletb" + aLoop + ".png").getImage();
 		}
 		loopState++;
 		if(loopState >= FRAME_DELAY){
