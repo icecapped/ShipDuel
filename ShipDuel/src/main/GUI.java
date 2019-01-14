@@ -19,8 +19,9 @@ class Frame extends JFrame implements MouseListener {
 	int backxfix = 8;
 	int backyfix = 31;
 	//fixed distances to move the "rules" and "play" button into the corret position
+	//xfix not needed
 	int xfix = 95;
-	int yfix = 125;
+	int yfix = 15;
 	
 	Container c;
 	CardLayout cards;
