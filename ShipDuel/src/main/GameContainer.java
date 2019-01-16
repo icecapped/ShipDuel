@@ -25,6 +25,11 @@ class GameContainer extends JPanel implements ActionListener{
 	int pAreaW;
 	int pAreaH;
 	
+	int numWidth;
+	int blueWins;
+	int redWins;
+	int frameSize;
+	
 	Timer tick;
 	int tickrate = 16;
 	PlayerShip red;
@@ -42,6 +47,10 @@ class GameContainer extends JPanel implements ActionListener{
 		pAreaW = 720;
 		pAreaH = 945;
 		
+		numWidth = 18;
+		blueWins = 0;
+		redWins = 0;
+		frameSize = 825;
 	}
 	
 	public void paintComponent(Graphics g){
@@ -49,7 +58,15 @@ class GameContainer extends JPanel implements ActionListener{
 		g.drawImage(BG_IMAGE, 50, 0, this);
 		g.drawImage(WALL_IMAGE_L, 0, 0, this);
 		g.drawImage(WALL_IMAGE_R, pAreaX + pAreaW - 10, 0, this);
+		if (blueWins >= 10) {
+			g.drawImage(new ImageIcon("src/assets/" + blueWins / 10 + ".png").getImage(), frameSize - numWidth, (int)(pAreaH / 4), null);
+		}
+		g.drawImage(new ImageIcon("src/assets/" + blueWins % 10 + ".png").getImage(), frameSize, (int)(pAreaH / 4), null);
 		
+		if (redWins >= 10) {
+			g.drawImage(new ImageIcon("src/assets/" + redWins / 10 + ".png").getImage(), frameSize - numWidth, (int)(pAreaH * 0.75), null);
+		}
+		g.drawImage(new ImageIcon("src/assets/" + redWins % 10 + ".png").getImage(), frameSize, (int)(pAreaH * 0.75), null);
 		//drawing middle boundary
 		g.setColor(Color.GRAY);
 		g.fillRect(50, pAreaH / 2 - 1, 720, 3);
@@ -90,11 +107,13 @@ class GameContainer extends JPanel implements ActionListener{
 			System.out.println("Red wins!");
 			blue = new PlayerShip(380, 275, true);
 			red = new PlayerShip(380, 755, false);
+			redWins = redWins + 1;
 		}
 		if(blue.checkShot(red)){
 			System.out.println("Blue wins!");
 			blue = new PlayerShip(380, 275, true);
 			red = new PlayerShip(380, 755, false);
+			blueWins = blueWins + 1;
 		}
 		
 		repaint(0, 0, 0, getWidth(), getHeight());
