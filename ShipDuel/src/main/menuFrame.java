@@ -26,8 +26,8 @@ class menuFrame extends JFrame implements MouseListener {
 	static final ImageIcon BLOCK = new ImageIcon("src/assets/block.png");
 	
 	boolean isMainMenu = false;
-	Container c;
 	
+	Container c;
 	CardLayout cards;
 	JPanel mainMenu;
 	JPanel rules;
