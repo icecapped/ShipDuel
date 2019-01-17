@@ -6,7 +6,10 @@ import java.awt.event.ActionListener;
 import java.awt.event.KeyAdapter;
 import java.awt.event.KeyEvent;
 import javax.swing.JFrame;
-
+/**
+ * Frame for game screen display
+ * M(ichael)Frame
+ */
 class MFrame extends JFrame implements ActionListener{
 	
 	static GameContainer panel;

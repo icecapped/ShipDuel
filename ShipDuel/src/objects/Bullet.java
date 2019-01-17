@@ -77,6 +77,7 @@ public class Bullet {
 	}
 	
 	public void updateImage(){
+		//There's no animation implemented as of yet, but it's a future framework
 		if(!direction){
 			image = new ImageIcon("src/assets/bulletr" + aLoop + ".png").getImage();
 		}

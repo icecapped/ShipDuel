@@ -21,21 +21,19 @@ class GameContainer extends JPanel implements ActionListener{
 	static final Image WALL_IMAGE_R = new ImageIcon("src/assets/Wall1.png").getImage();
 	static final Image P1 = new ImageIcon("src/assets/p1.png").getImage();
 	static final Image P2 = new ImageIcon("src/assets/p2.png").getImage();
+	static final int NUM_WIDTH = 21;
 	
 	int pAreaX;
 	int pAreaY;
 	int pAreaW;
 	int pAreaH;
 	
-	int numWidth;
-	int blueWins;
-	int redWins;
-	int frameSize;
-	
 	Timer tick;
 	int tickrate = 16;
 	PlayerShip red;
 	PlayerShip blue;
+	int blueWins;
+	int redWins;
 	
 	public GameContainer() {
 		//addKeyListener(new MAdapter());
@@ -49,10 +47,8 @@ class GameContainer extends JPanel implements ActionListener{
 		pAreaW = 720;
 		pAreaH = 945;
 		
-		numWidth = 18;
 		blueWins = 0;
 		redWins = 0;
-		frameSize = 825;
 	}
 	
 	public void paintComponent(Graphics g){
@@ -61,18 +57,8 @@ class GameContainer extends JPanel implements ActionListener{
 		g.drawImage(WALL_IMAGE_L, 0, 0, this);
 		g.drawImage(WALL_IMAGE_R, pAreaX + pAreaW - 10, 0, this);
 		
-		g.drawImage(P1, frameSize - numWidth, (int)(pAreaH / 4) - 42, null);
-		g.drawImage(P2, frameSize - numWidth, (int)(pAreaH * 0.75) - 42, null);
+		this.drawScoreboard(g);
 		
-		if (blueWins >= 10) {
-			g.drawImage(new ImageIcon("src/assets/" + blueWins / 10 + ".png").getImage(), frameSize - numWidth, (int)(pAreaH / 4), null);
-		}
-		g.drawImage(new ImageIcon("src/assets/" + blueWins % 10 + ".png").getImage(), frameSize, (int)(pAreaH / 4), null);
-		
-		if (redWins >= 10) {
-			g.drawImage(new ImageIcon("src/assets/" + redWins / 10 + ".png").getImage(), frameSize - numWidth, (int)(pAreaH * 0.75), null);
-		}
-		g.drawImage(new ImageIcon("src/assets/" + redWins % 10 + ".png").getImage(), frameSize, (int)(pAreaH * 0.75), null);
 		//drawing middle boundary
 		g.setColor(Color.GRAY);
 		g.fillRect(50, pAreaH / 2 - 1, 720, 3);
@@ -82,7 +68,6 @@ class GameContainer extends JPanel implements ActionListener{
 		}
 		for(int i = 0; i < blue.getBullets().size(); i++){
 			g.drawImage(blue.getBullets().get(i).getImage(), blue.getBullets().get(i).getX(), blue.getBullets().get(i).getY(), this);
-
 		}
 		
 		g.drawImage(red.getImage(), red.getX(), red.getY(), this);
@@ -123,6 +108,21 @@ class GameContainer extends JPanel implements ActionListener{
 		}
 		
 		repaint(0, 0, 0, getWidth(), getHeight());
+	}
+	
+	void drawScoreboard(Graphics g){
+		g.drawImage(P1, pAreaW + pAreaX + 65, (int)(pAreaH * 0.4) - 40, null);
+		g.drawImage(P2, pAreaW + pAreaX + 65, (int)(pAreaH * 0.6) + 20, null);
+		
+		if (blueWins >= 10) {
+			g.drawImage(new ImageIcon("src/assets/" + blueWins / 10 + ".png").getImage(), pAreaW + pAreaX + 65, (int)(pAreaH * 0.4), null);
+		}
+		if (redWins >= 10) {
+			g.drawImage(new ImageIcon("src/assets/" + redWins / 10 + ".png").getImage(), pAreaW + pAreaX + 65, (int)(pAreaH * 0.6), null);
+		}
+		
+		g.drawImage(new ImageIcon("src/assets/" + blueWins % 10 + ".png").getImage(), pAreaW + pAreaX + NUM_WIDTH + 65, (int)(pAreaH * 0.4), null);
+		g.drawImage(new ImageIcon("src/assets/" + redWins % 10 + ".png").getImage(), pAreaW + pAreaX + NUM_WIDTH + 65, (int)(pAreaH * 0.6), null);
 	}
 	
 	public void actionPerformed(ActionEvent e) {
